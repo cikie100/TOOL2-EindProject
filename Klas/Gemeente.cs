@@ -20,6 +20,11 @@ namespace Tool2.Klas
             stratenNaamId = new List<string>();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Gemeente gemeente &&
+                   gemeenteId == gemeente.gemeenteId;
+        }
     }
 
 
