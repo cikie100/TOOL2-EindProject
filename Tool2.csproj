@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="dataTool1\" />
+    <Compile Remove="dataTool1\**" />
+    <EmbeddedResource Remove="dataTool1\**" />
+    <None Remove="dataTool1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="SQL\" />
   </ItemGroup>
 

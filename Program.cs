@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Tool2.Databeheer;
+using Tool2.Klas;
 
 namespace Tool2
 {
@@ -6,7 +10,22 @@ namespace Tool2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+
+            Databeheerder d = new Databeheerder();
+      //      List<Gemeente> GemeenteLijst = d.getGemeentes(); //duurt 3 seconden
+            List<Provincie> provincieLijst = d.getProvincies(); //duurt < 0 seconden
+
+
+
+
+            stopWatch.Stop();
+            long duration = stopWatch.ElapsedMilliseconds / 1000;
+            Console.WriteLine("\nRunTime " + duration + " Elapsed seconds");
+
+            Console.ReadLine(); 
         }
     }
 }
