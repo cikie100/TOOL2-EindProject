@@ -1,0 +1,11 @@
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.exe
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.deps.json
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.runtimeconfig.json
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.runtimeconfig.dev.json
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.pdb
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.csprojAssemblyReference.cache
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.AssemblyInfoInputs.cache
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.AssemblyInfo.cs
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.pdb
