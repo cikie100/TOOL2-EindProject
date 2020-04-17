@@ -9,6 +9,7 @@ namespace Tool2.Databeheer
     public class Databeheerder
     //Hierin lees ik al de zelfgemaakte data bestanden in
     {
+
         #region WORKS
         // ProvincieBestand.txt (provincieID;Provnaam;taalcode;(gemeenteId))
         public List<Provincie> getProvincies()
@@ -55,14 +56,14 @@ namespace Tool2.Databeheer
 
         #endregion
 
-        #region GemeenteBestand.txt (GemeenteId;Gemeente_naam;(StraatId))
-
+        // GemeenteBestand.txt (GemeenteId;Gemeente_naam;(StraatId))
         //geeft gemeente lijst terug
         public List<Gemeente> getGemeentes()
     {
-        List<Gemeente> Gemeentes = new List<Gemeente>();
+        List<Gemeente> gemeentes = new List<Gemeente>();
+            List<string> GemInfo;
 
-        using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\GemeenteBestand.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\GemeenteBestand.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         using (BufferedStream bs = new BufferedStream(fs))
         using (StreamReader sreader = new StreamReader(bs))
         {
@@ -72,6 +73,7 @@ namespace Tool2.Databeheer
             sreader.ReadLine();
             while ((input = sreader.ReadLine()) != null)
             {
+               GemInfo = new List<string>();
                 string woord = input;
                 string[] words = woord.Replace(";(", ";")
                     .Trim(new Char[] { ')' })
@@ -80,20 +82,21 @@ namespace Tool2.Databeheer
                 for
                 (int i = 0; i < words.Count(); i++) //loops through each line of the array
                 {
-                    Gemeentes.Add(new Gemeente(words[0], words[1]));
-                    for (int ii = 2; ii < words.Count(); ii++)
+                        GemInfo.Add(words[i]);
+                }
+                    gemeentes.Add(new Gemeente(GemInfo[0], GemInfo[1]));
+                    for (int i = 2; i < GemInfo.Count; i++)
                     {
-                        if (words[ii] != "")
+                        if (GemInfo[i] != "")
                         {
-                            Gemeentes[i].stratenNaamId.Add(words[ii]);
+                            gemeentes.Where(g => g.gemeenteId.Equals(GemInfo[0])).FirstOrDefault().stratenNaamId.Add(GemInfo[i]);
                         }
                     }
                 }
-            }
-            return Gemeentes;
+            return gemeentes;
         }
-    } ////duurt 3 seconden
+    }
 
-    #endregion GemeenteBestand.txt (GemeenteId;Gemeente_naam;(StraatId))
+   
 }
 }
