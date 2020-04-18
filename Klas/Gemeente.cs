@@ -6,24 +6,26 @@ namespace Tool2.Klas
 {
    public class Gemeente
     {
-        public string gemeenteId { get; set; }
-        public string gemeenteNaam { get; set; }
-        public List<String> stratenNaamId { get; set; }
+        public int GemeenteId { get; set; }
+        public string GemeenteNaam { get; set; }
+        public List<int> StratenNaamIdLijst { get; set; }
 
-        public Gemeente(string gemeenteId, string gemeenteNaam)
+        public Gemeente(int gemeenteId, string gemeenteNaam)
         {
            
-            this.gemeenteId = gemeenteId;
-            this.gemeenteNaam = gemeenteNaam;
+            this.GemeenteId = gemeenteId;
+            this.GemeenteNaam = gemeenteNaam;
 
             
-            stratenNaamId = new List<string>();
+            StratenNaamIdLijst = new List<int>();
         }
 
         public override bool Equals(object obj)
         {
             return obj is Gemeente gemeente &&
-                   gemeenteId == gemeente.gemeenteId;
+                   GemeenteId == gemeente.GemeenteId &&
+                   GemeenteNaam == gemeente.GemeenteNaam &&
+                   EqualityComparer<List<int>>.Default.Equals(StratenNaamIdLijst, gemeente.StratenNaamIdLijst);
         }
     }
 

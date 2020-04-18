@@ -39,17 +39,18 @@ namespace Tool2.Databeheer
                     {
                         ProvInfo.Add(words[i]);
                     }
-                    provincies.Add(new Provincie(ProvInfo[0], ProvInfo[1], ProvInfo[2]));
+                    provincies.Add(new Provincie(Convert.ToInt32(ProvInfo[0]), ProvInfo[1], ProvInfo[2]));
                     for (int i = 3; i < ProvInfo.Count; i++)
                     {
-                        if(ProvInfo[i] != "") { 
-                        provincies.Where(p => p.provincieId.Equals(ProvInfo[0])).FirstOrDefault().gemeenteIdStrings.Add(ProvInfo[i]);
+                        if (ProvInfo[i] != "")
+                        {
+                            provincies.Where(p => p.ProvincieId.Equals(Convert.ToInt32(ProvInfo[0]))).FirstOrDefault().GemeenteIdStrings.Add(Convert.ToInt32(ProvInfo[i]));
                         }
                     }
 
                 }
 
-               // string[] ProvInfoTotal= ProvInfo""
+                // string[] ProvInfoTotal= ProvInfo""
 
                 return provincies;
             }
@@ -83,12 +84,12 @@ namespace Tool2.Databeheer
                     {
                         GemInfo.Add(words[i]);
                     }
-                    gemeentes.Add(new Gemeente(GemInfo[0], GemInfo[1]));
+                    gemeentes.Add(new Gemeente(Convert.ToInt32(GemInfo[0]), GemInfo[1]));
                     for (int i = 2; i < GemInfo.Count; i++)
                     {
                         if (GemInfo[i] != "")
                         {
-                            gemeentes.Where(g => g.gemeenteId.Equals(GemInfo[0])).FirstOrDefault().stratenNaamId.Add(GemInfo[i]);
+                            gemeentes.Where(g => g.GemeenteId.Equals(Convert.ToInt32(GemInfo[0]))).FirstOrDefault().StratenNaamIdLijst.Add(Convert.ToInt32(GemInfo[i]));
                         }
                     }
                 }
@@ -98,7 +99,39 @@ namespace Tool2.Databeheer
 
         #endregion
 
+        // StraatBestand.txt (straatId;Straatnaam;lengte;graafID)
+        //geeft gemeente lijst terug
+        public List<Straat> getStraten()
+        {
+            List<Straat> straten = new List<Straat>();
+            List<string> StraatInfo;
+
+            using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\StraatBestand.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sreader = new StreamReader(bs))
+            {
+                string input = null;
+
+                //sla de eerste regel over
+                sreader.ReadLine();
+                while ((input = sreader.ReadLine()) != null)
+                {
+                    StraatInfo = new List<string>();
+                    string woord = input;
+                    string[] words = woord.Split(';');
 
 
+                    //loops through each line of the array
+                    //straatId;Straatnaam;lengte;graafID 
+
+                    straten.Add(new Straat(Convert.ToInt32(words[0]), words[1], Math.Round(Convert.ToDouble(words[2])), Convert.ToInt32(words[3])));
+
+
+
+                }
+                return straten;
+            }
+        }
     }
+    
 }

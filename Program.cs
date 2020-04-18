@@ -15,9 +15,9 @@ namespace Tool2
 
 
             Databeheerder d = new Databeheerder();
-            List<Gemeente> GemeenteLijst = d.getGemeentes(); //duurt <0 seconden
-            List<Provincie> provincieLijst = d.getProvincies(); //duurt < 0 seconden
-
+            //List<Gemeente> GemeenteLijst = d.getGemeentes(); //duurt <0 seconden
+            //List<Provincie> ProvincieLijst = d.getProvincies(); //duurt < 0 seconden
+            List<Straat> StratenLijst = d.getStraten(); //duurt < 0 seconden
 
 
 

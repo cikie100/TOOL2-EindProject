@@ -6,25 +6,28 @@ namespace Tool2.Klas
 {
     public class Provincie
     {
-        public String provincieId { get; set; }
-        public String provincieNaam { get; set; }
-        public String taalCodeProvincieNaam { get; set; }
-        public List<String> gemeenteIdStrings { get; set; }
+        public int ProvincieId { get; set; }
+        public String ProvincieNaam { get; set; }
+        public String TaalCodeProvincieNaam { get; set; }
+        public List<int> GemeenteIdStrings { get; set; }
 
-        public Provincie(String provincieId, string provincieNaam,string taalCodeProvincieNaam )
+        public Provincie(int provincieId, string provincieNaam,string taalCodeProvincieNaam )
         {
-            this.provincieId = provincieId;
-            this.taalCodeProvincieNaam = taalCodeProvincieNaam;
-            this.provincieNaam = provincieNaam;
+            this.ProvincieId = provincieId;
+            this.TaalCodeProvincieNaam = taalCodeProvincieNaam;
+            this.ProvincieNaam = provincieNaam;
 
-            this.gemeenteIdStrings = new List<string>();
+            this.GemeenteIdStrings = new List<int>();
 
         }
 
         public override bool Equals(object obj)
         {
             return obj is Provincie provincie &&
-                   provincieId == provincie.provincieId;
+                   ProvincieId == provincie.ProvincieId &&
+                   ProvincieNaam == provincie.ProvincieNaam &&
+                   TaalCodeProvincieNaam == provincie.TaalCodeProvincieNaam &&
+                   EqualityComparer<List<int>>.Default.Equals(GemeenteIdStrings, provincie.GemeenteIdStrings);
         }
     }
 }
