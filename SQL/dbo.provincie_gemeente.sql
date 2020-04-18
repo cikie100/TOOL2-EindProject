@@ -1,9 +1,10 @@
-﻿CREATE TABLE [dbo].[provincie_gemeente]
+﻿CREATE TABLE [dbo].[Provincie_Gemeente]
 (
-	[gemeenteId] INT NOT NULL , 
-    [provincieId] INT NOT NULL, 
-    PRIMARY KEY CLUSTERED ([provincieId] ASC,[gemeenteId]ASC), 
-    CONSTRAINT [FK_provincie_gemeente_Provincie] FOREIGN KEY ([gemeenteId]) REFERENCES [dbo].[Provincie], 
-    CONSTRAINT [FK_provincie_gemeente_Gemeente] FOREIGN KEY ([gemeenteId]) REFERENCES [dbo].[Gemeente],
+	[provincieID] INT NOT NULL, 
+    [gemeenteId] INT NOT NULL,
+	 PRIMARY KEY ([provincieID], [gemeenteId]), 
+
+	 CONSTRAINT [FK_Gemeente_Provincie_Provincie] FOREIGN KEY ([provincieID]) REFERENCES [dbo].[Provincie]([provincieID]), 
+    CONSTRAINT [FK_Gemeente_Provincie_Gemeente] FOREIGN KEY ([gemeenteId]) REFERENCES [dbo].[Gemeente]([gemeenteId])
 
 )

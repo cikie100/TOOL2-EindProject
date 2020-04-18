@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Text;
 using Tool2.Klas;
 
 namespace Tool2.DbDatabeheer
 {
-    public class DB_DataBeheer {
+    public class DB_DataBeheer
+    {
         //Voorbeeld gebruikt: ADONETtutorial
+        //namen zeggen welke items ze inserten in de databank
 
         #region standaard stuff ( DbProviderFactory, DbConnection, constructor,... )
 
@@ -60,7 +60,7 @@ namespace Tool2.DbDatabeheer
                     command.Parameters.Add(parSID);
 
                     command.CommandText = query1;
-                    
+
                     foreach (Gemeente gem in gemlist)
                     {
                         command.Parameters["@gemeenteId"].Value = gem.GemeenteId;
@@ -176,9 +176,6 @@ namespace Tool2.DbDatabeheer
             }
         }
 
-        #endregion
-
-
         public void VoegStratenToe(List<Straat> straatlist) //duurt ook 23 secondenn er zijn er 84063
         {
             DbConnection connection = getConnection();
@@ -186,7 +183,7 @@ namespace Tool2.DbDatabeheer
                 "INSERT INTO dbo.Straat(straatId,straatNaam,lengte,graafID) VALUES(@straatId,@straatNaam,@lengte,@graafID);" +
                 "   SET IDENTITY_INSERT Straat  OFF";
 
-             using (DbCommand command = connection.CreateCommand())
+            using (DbCommand command = connection.CreateCommand())
             {
                 connection.Open();
                 try
@@ -234,6 +231,99 @@ namespace Tool2.DbDatabeheer
                 }
 
             }
+        }
+
+        #endregion
+
+        public void KoppelGemeentesAanProvincie(List<Provincie> provlist)
+        {
+            DbConnection connection = getConnection();
+            string queryS = "INSERT INTO dbo.Provincie_Gemeente(provincieID,gemeenteId) VALUES(@provincieID,@gemeenteId)";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@provincieID";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+                    DbParameter parSID = sqlFactory.CreateParameter();
+                    parSID.ParameterName = "@gemeenteId";
+                    parSID.DbType = DbType.Int32;
+                    command.Parameters.Add(parSID);
+
+                    command.CommandText = queryS;
+
+                    foreach (Provincie prov in provlist)
+                    {
+                        foreach (int gemid in prov.GemeenteIdStrings)
+                        {
+                            command.Parameters["@provincieID"].Value = prov.ProvincieId;
+                            command.Parameters["@gemeenteId"].Value = gemid;
+                            command.ExecuteNonQuery();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+        }
+
+        public void KoppelStratenAanGemeentes(List<Gemeente> gemlist, List<Straat> stralist)
+        {
+            DbConnection connection = getConnection();
+            string queryS = "INSERT INTO dbo.Gemeente_straat(gemeenteId,straatId) VALUES(@gemeenteId,@straatId)";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@gemeenteId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+                    DbParameter parSID = sqlFactory.CreateParameter();
+                    parSID.ParameterName = "@straatId";
+                    parSID.DbType = DbType.Int32;
+                    command.Parameters.Add(parSID);
+
+                    command.CommandText = queryS;
+
+                    foreach (Gemeente gem in gemlist)
+                    {
+                        foreach (int strtid in gem.StratenNaamIdLijst)
+                        {
+                            //een extra check omdat straat 83 van eerste gemeente er niet is in stratenlijst
+                            if (stralist.Exists(str=> str.StraatID.Equals(strtid))) { 
+                            command.Parameters["@gemeenteId"].Value = gem.GemeenteId;
+                            command.Parameters["@straatId"].Value = strtid;
+                            command.ExecuteNonQuery();
+                        }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
         }
     }
 }
