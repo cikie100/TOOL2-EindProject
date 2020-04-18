@@ -136,9 +136,104 @@ namespace Tool2.DbDatabeheer
             }
         }
 
+        public void VoegGraafObjectenToe(List<Straat> straatlist) //duurt 23 seconden , er zijn er 84063 
+        {
+            DbConnection connection = getConnection();
+            string query1 = "SET IDENTITY_INSERT Graaf ON;" +
+                "INSERT INTO dbo.Graaf(GraafId) VALUES(@GraafId);" +
+                "   SET IDENTITY_INSERT Graaf  OFF";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@GraafId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+                    command.CommandText = query1;
+
+                    foreach (Straat str in straatlist)
+                    {
+
+                        command.Parameters["@graafID"].Value = str.GraafId;
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+            }
+        }
+
         #endregion
 
 
+        public void VoegStratenToe(List<Straat> straatlist) //duurt ook 23 secondenn er zijn er 84063
+        {
+            DbConnection connection = getConnection();
+            string query1 = "SET IDENTITY_INSERT Straat ON;" +
+                "INSERT INTO dbo.Straat(straatId,straatNaam,lengte,graafID) VALUES(@straatId,@straatNaam,@lengte,@graafID);" +
+                "   SET IDENTITY_INSERT Straat  OFF";
 
+             using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@straatId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+                    DbParameter parSID = sqlFactory.CreateParameter();
+                    parSID.ParameterName = "@straatNaam";
+                    parSID.DbType = DbType.String;
+                    command.Parameters.Add(parSID);
+
+                    DbParameter parTID = sqlFactory.CreateParameter();
+                    parTID.ParameterName = "@lengte";
+                    parTID.DbType = DbType.Int32;
+                    command.Parameters.Add(parTID);
+
+                    DbParameter parRID = sqlFactory.CreateParameter();
+                    parRID.ParameterName = "@graafID";
+                    parRID.DbType = DbType.Int32;
+                    command.Parameters.Add(parRID);
+
+                    command.CommandText = query1;
+
+                    foreach (Straat str in straatlist)
+                    {
+                        command.Parameters["@straatId"].Value = str.StraatID;
+                        command.Parameters["@straatNaam"].Value = str.Straatnaam;
+                        command.Parameters["@lengte"].Value = str.Length;
+                        command.Parameters["@graafID"].Value = str.GraafId;
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+            }
+        }
     }
 }

@@ -41,6 +41,10 @@ namespace Tool2
             //dbo.Gemeente opvullen is gelukt (GemeenteId,GemeenteNaam)
             // db.VoegGemeentesToe(GemeenteLijst);
 
+            //dbo.Graaf vullen met alle graafId's (GraafId)
+            //db.VoegGraafObjectenToe(StratenLijst);
+
+            db.VoegStratenToe(StratenLijst);
 
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;
