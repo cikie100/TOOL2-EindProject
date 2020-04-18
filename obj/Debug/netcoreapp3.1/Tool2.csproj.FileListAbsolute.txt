@@ -9,3 +9,11 @@ D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.As
 D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.AssemblyInfo.cs
 D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.dll
 D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.pdb
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\obj\Debug\netcoreapp3.1\Tool2.csproj.CopyComplete
+D:\Users\ciki3\Desktop\Prog 3 eindproject\Tool2\bin\Debug\netcoreapp3.1\Tool2.dll.config

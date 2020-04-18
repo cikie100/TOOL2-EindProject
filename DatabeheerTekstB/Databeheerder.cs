@@ -97,7 +97,6 @@ namespace Tool2.Databeheer
             }
         }
 
-        #endregion
 
         // StraatBestand.txt (straatId;Straatnaam;lengte;graafID)
         //geeft gemeente lijst terug
@@ -132,6 +131,9 @@ namespace Tool2.Databeheer
                 return straten;
             }
         }
+        #endregion
+
+
     }
     
 }
