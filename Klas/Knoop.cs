@@ -9,14 +9,18 @@ namespace Tool2.Klas
 
         public int knoopID { get; set; }
         public Punt punt { get; set; }
+        public List<Segment> segmenten { get; set; }
 
         #endregion Properties
 
-        public Knoop(int i, Punt p)
+        public Knoop(int id, Punt p)
         {
-            this.knoopID = i;
+            this.knoopID = id;
             this.punt = p;
+            this.segmenten = new List<Segment>();
         }
+
+ 
 
         public override string ToString()
         {

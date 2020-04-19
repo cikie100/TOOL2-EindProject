@@ -9,20 +9,20 @@ namespace Tool2.Klas
         #region Properties
 
         public int segmentID { get; set; }
-        public Knoop beginknoop { get; set; }
-        public Knoop eindknoop { get; set; }
+        public int beginknoop { get; set; }
+        public int eindknoop { get; set; }
         public List<Punt> punten_verticles { get; set; }
 
 
 
         #endregion Properties
 
-        public Segment(int segmentID, Knoop beginknoop, Knoop eindknoop, List<Punt> lijstPunten)
+        public Segment(int segmentID, int beginknoopID, int eindknoopID)
         {
             this.segmentID = segmentID;
-            this.beginknoop = beginknoop;
-            this.eindknoop = eindknoop;
-            this.punten_verticles = lijstPunten;
+            this.beginknoop = beginknoopID;
+            this.eindknoop = eindknoopID;
+            this.punten_verticles = new List<Punt>();
 
         }
 
@@ -35,30 +35,21 @@ namespace Tool2.Klas
 
             return ("Segment {0}, heeft als beginknoop x,y: ({1},{2}), heeft als eindknoop x,y: ({3},{4})",
                 segmentID,
-                beginknoop.punt.x,
-                 beginknoop.punt.y,
-                  eindknoop.punt.x,
-                   eindknoop.punt.y
+                beginknoop.ToString(),
+                 eindknoop.ToString()
                           )
 
                 +
                  "/n en als verticles: " + pntLijst;
         }
 
-
-
         public override bool Equals(object obj)
         {
             return obj is Segment segment &&
-                   EqualityComparer<Knoop>.Default.Equals(beginknoop, segment.beginknoop) &&
-                   EqualityComparer<Knoop>.Default.Equals(eindknoop, segment.eindknoop) &&
                    segmentID == segment.segmentID &&
+                   beginknoop == segment.beginknoop &&
+                   eindknoop == segment.eindknoop &&
                    EqualityComparer<List<Punt>>.Default.Equals(punten_verticles, segment.punten_verticles);
         }
-
-
-  
-
-       
     }
 }

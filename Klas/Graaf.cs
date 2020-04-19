@@ -15,5 +15,7 @@ namespace Tool2.Klas
             this.GraafId = graafId;
             map = new Dictionary<Knoop, List<Segment>>();
         }
+       
+      
     }
 }

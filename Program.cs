@@ -23,12 +23,14 @@ namespace Tool2
             //haalt alles op van de tekstbestanden die ik maakte in TOOL1
             List<Gemeente> GemeenteLijst = d.getGemeentes(); //duurt <0 seconden
             List<Provincie> ProvincieLijst = d.getProvincies(); //duurt < 0 seconden
-            List<Straat> StratenLijst = d.getStraten(); //duurt < 0 seconden
+            List<Straat> StratenLijst = d.getStraten(); // 84064 straten maken duurt < 0 seconden
 
-           
-            #endregion
 
-            #region  databank
+            List<Graaf> GravenLijst = d.getGraafenLijst(); // duurt 30 seconden voor 84064 graven aan (=evenveel straten) te maken.
+
+        #endregion
+
+        #region  databank
             DbProviderFactories.RegisterFactory("sqlserver", SqlClientFactory.Instance);
 
             //die @ moet erbij, anders geeft die gezaag over de "\"

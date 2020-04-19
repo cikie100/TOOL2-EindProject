@@ -20,7 +20,7 @@
         //gebruikt voor testen en debug
         public override string ToString()
         {
-            return "Punt met x,y: (+ " + x.ToString() + "," + y.ToString() + ")";
+            return "Punt met x,y: ( " + x.ToString() + "," + y.ToString() + ")";
         }
         public override bool Equals(object obj)
         {
