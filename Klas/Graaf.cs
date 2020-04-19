@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Tool2.Klas
 {
@@ -15,7 +13,5 @@ namespace Tool2.Klas
             this.GraafId = graafId;
             map = new Dictionary<Knoop, List<Segment>>();
         }
-       
-      
     }
 }

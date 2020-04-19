@@ -22,6 +22,7 @@
         {
             return "Punt met x,y: ( " + x.ToString() + "," + y.ToString() + ")";
         }
+
         public override bool Equals(object obj)
         {
             return obj is Punt punt &&

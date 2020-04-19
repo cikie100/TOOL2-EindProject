@@ -13,7 +13,7 @@ namespace Tool2.Klas
         {
             StraatID = straatID;
             Straatnaam = straatnaam;
-            Length = Convert.ToInt32( length);
+            Length = Convert.ToInt32(length);
             GraafId = graafId;
         }
 

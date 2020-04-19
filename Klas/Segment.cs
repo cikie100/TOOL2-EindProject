@@ -13,8 +13,6 @@ namespace Tool2.Klas
         public int eindknoop { get; set; }
         public List<Punt> punten_verticles { get; set; }
 
-
-
         #endregion Properties
 
         public Segment(int segmentID, int beginknoopID, int eindknoopID)
@@ -23,7 +21,6 @@ namespace Tool2.Klas
             this.beginknoop = beginknoopID;
             this.eindknoop = eindknoopID;
             this.punten_verticles = new List<Punt>();
-
         }
 
         //gebruikt bij testen & debug

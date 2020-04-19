@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Tool2.Klas
 {
-   public class Gemeente
+    public class Gemeente
     {
         public int GemeenteId { get; set; }
         public string GemeenteNaam { get; set; }
@@ -12,11 +10,9 @@ namespace Tool2.Klas
 
         public Gemeente(int gemeenteId, string gemeenteNaam)
         {
-           
             this.GemeenteId = gemeenteId;
             this.GemeenteNaam = gemeenteNaam;
 
-            
             StratenNaamIdLijst = new List<int>();
         }
 
@@ -28,6 +24,4 @@ namespace Tool2.Klas
                    EqualityComparer<List<int>>.Default.Equals(StratenNaamIdLijst, gemeente.StratenNaamIdLijst);
         }
     }
-
-
 }

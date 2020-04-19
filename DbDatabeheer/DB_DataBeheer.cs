@@ -14,6 +14,7 @@ namespace Tool2.DbDatabeheer
         #region standaard stuff ( DbProviderFactory, DbConnection, constructor,... )
 
         private DbProviderFactory sqlFactory;
+
         //connectionString gemaakt in Program.cs
         private string connectionString;
 
@@ -31,18 +32,17 @@ namespace Tool2.DbDatabeheer
             connection.ConnectionString = connectionString;
             return connection;
         }
-        #endregion
+
+        #endregion standaard stuff ( DbProviderFactory, DbConnection, constructor,... )
 
         #region lukt
+
         public void VoegGemeentesToe(List<Gemeente> gemlist)
         {
             DbConnection connection = getConnection();
             string query1 = "SET IDENTITY_INSERT Gemeente ON;" +
                 "INSERT INTO dbo.Gemeente(GemeenteId,GemeenteNaam) VALUES(@gemeenteId,@gemeenteNaam);" +
                 "   SET IDENTITY_INSERT Gemeente  OFF";
-
-
-
 
             using (DbCommand command = connection.CreateCommand())
             {
@@ -67,9 +67,7 @@ namespace Tool2.DbDatabeheer
                         command.Parameters["@gemeenteNaam"].Value = gem.GemeenteNaam;
                         command.ExecuteNonQuery();
                     }
-
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
@@ -78,7 +76,6 @@ namespace Tool2.DbDatabeheer
                 {
                     connection.Close();
                 }
-
             }
         }
 
@@ -88,9 +85,6 @@ namespace Tool2.DbDatabeheer
             string query1 = "SET IDENTITY_INSERT Provincie ON;" +
                 "INSERT INTO dbo.Provincie(provincieID,provincienaam,taalcode) VALUES(@provincieID,@provincienaam,@taalcode);" +
                 "   SET IDENTITY_INSERT Provincie  OFF";
-
-
-
 
             using (DbCommand command = connection.CreateCommand())
             {
@@ -121,9 +115,7 @@ namespace Tool2.DbDatabeheer
                         command.Parameters["@taalcode"].Value = prov.TaalCodeProvincieNaam;
                         command.ExecuteNonQuery();
                     }
-
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
@@ -132,11 +124,10 @@ namespace Tool2.DbDatabeheer
                 {
                     connection.Close();
                 }
-
             }
         }
 
-        public void VoegGraafObjectenToe(List<Straat> straatlist) //duurt 23 seconden , er zijn er 84063 
+        public void VoegGraafObjectenToe(List<Straat> straatlist) //duurt 23 seconden , er zijn er 84063
         {
             DbConnection connection = getConnection();
             string query1 = "SET IDENTITY_INSERT Graaf ON;" +
@@ -157,13 +148,10 @@ namespace Tool2.DbDatabeheer
 
                     foreach (Straat str in straatlist)
                     {
-
                         command.Parameters["@graafID"].Value = str.GraafId;
                         command.ExecuteNonQuery();
                     }
-
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
@@ -172,7 +160,6 @@ namespace Tool2.DbDatabeheer
                 {
                     connection.Close();
                 }
-
             }
         }
 
@@ -218,9 +205,7 @@ namespace Tool2.DbDatabeheer
                         command.Parameters["@graafID"].Value = str.GraafId;
                         command.ExecuteNonQuery();
                     }
-
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
@@ -229,11 +214,10 @@ namespace Tool2.DbDatabeheer
                 {
                     connection.Close();
                 }
-
             }
         }
 
-        #endregion
+        #endregion lukt
 
         public void KoppelGemeentesAanProvincie(List<Provincie> provlist)
         {
@@ -264,7 +248,6 @@ namespace Tool2.DbDatabeheer
                             command.Parameters["@gemeenteId"].Value = gemid;
                             command.ExecuteNonQuery();
                         }
-
                     }
                 }
                 catch (Exception ex)
@@ -276,7 +259,6 @@ namespace Tool2.DbDatabeheer
                     connection.Close();
                 }
             }
-
         }
 
         public void KoppelStratenAanGemeentes(List<Gemeente> gemlist, List<Straat> stralist)
@@ -305,13 +287,13 @@ namespace Tool2.DbDatabeheer
                         foreach (int strtid in gem.StratenNaamIdLijst)
                         {
                             //een extra check omdat straat 83 van eerste gemeente er niet is in stratenlijst
-                            if (stralist.Exists(str=> str.StraatID.Equals(strtid))) { 
-                            command.Parameters["@gemeenteId"].Value = gem.GemeenteId;
-                            command.Parameters["@straatId"].Value = strtid;
-                            command.ExecuteNonQuery();
+                            if (stralist.Exists(str => str.StraatID.Equals(strtid)))
+                            {
+                                command.Parameters["@gemeenteId"].Value = gem.GemeenteId;
+                                command.Parameters["@straatId"].Value = strtid;
+                                command.ExecuteNonQuery();
+                            }
                         }
-                        }
-
                     }
                 }
                 catch (Exception ex)
@@ -323,7 +305,6 @@ namespace Tool2.DbDatabeheer
                     connection.Close();
                 }
             }
-
         }
     }
 }

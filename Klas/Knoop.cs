@@ -20,8 +20,6 @@ namespace Tool2.Klas
             this.segmenten = new List<Segment>();
         }
 
- 
-
         public override string ToString()
         {
             return ("Knoop met id " + knoopID + " , verwijst naar punt x,y: ( " + punt.x + " , " + punt.y + " )");
@@ -35,8 +33,6 @@ namespace Tool2.Klas
                    knoopID == knoop.knoopID &&
                    EqualityComparer<Punt>.Default.Equals(punt, knoop.punt);
         }
-
-
 
         #endregion equals & getHashCode
 
