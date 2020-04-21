@@ -6,9 +6,11 @@ using Tool2.Klas;
 
 namespace Tool2.Databeheer
 {
-    public class Databeheerder
+    public class Tool1DataVerwerker
     //Hierin lees ik al de zelfgemaakte data bestanden in en geef ik hun terug als List<Objects>
     {
+        public List<Knoop> getalleknopen;
+
         #region WORKS
 
         // ProvincieBestand.txt (provincieID;Provnaam;taalcode;(gemeenteId))
@@ -131,7 +133,7 @@ namespace Tool2.Databeheer
         public List<Graaf> getGraafenLijst()
         {
             //deze code is niet bepaald mooi, maar het werkt, en ik ben er wel beetje trots op :)
-
+            getalleknopen = new List<Knoop>();
             List<Graaf> graafLijst = new List<Graaf>();
             List<string> GraafInfoLIJN;
 
@@ -177,7 +179,9 @@ namespace Tool2.Databeheer
                         //graaf tekst is op gebruikt? voeg graaf toe aan de lijst die je gaat terug geven.
                         if (wholeLine1[0] == " ")
                         {
-                            foreach (Knoop knp in knopen) { dummyGraaf.map.Add(knp, knp.segmenten); }
+                            foreach (Knoop knp in knopen) { dummyGraaf.map.Add(knp, knp.segmenten);
+                                                                 getalleknopen.Add(knp);
+                            }
                             graafLijst.Add(dummyGraaf);
                             wholeLine1 = wholeLine1.Skip(1).ToArray();
                         }
@@ -245,164 +249,6 @@ namespace Tool2.Databeheer
 
         #endregion WORKS
 
-        //fail, later verwijderen !
-        public List<Graaf> VORIGEVERSIE_getGraafenLijst_veelTeVeelExtras()
-        {
-            //deze code is niet bepaald mooi, maar het werkt, en ik ben er wel beetje trots op :)
-
-            List<Graaf> graafLijst = new List<Graaf>();
-            List<string> GraafInfoLIJN;
-
-            using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\GraafBestand.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (BufferedStream bs = new BufferedStream(fs))
-            using (StreamReader sreader = new StreamReader(bs))
-            {
-                string input = null;
-                //sla de eerste regel over.
-                sreader.ReadLine();
-
-                Graaf dummyGraaf;
-                while ((input = sreader.ReadLine()) != null)
-                {
-                    GraafInfoLIJN = new List<string>();
-                    string woord = input;
-
-                    string[] wholeLine = woord.Split('>').Where(val => val != "").ToArray(); ;
-                    string x = wholeLine[0];
-                    string[] wholeLine1 = x.Replace(")]) ", ")]); ").Replace(")])<", ")]); ").Split(';');
-
-                    wholeLine1[0] = wholeLine1[0].Replace("graafID", "");
-                    dummyGraaf = new Graaf(Convert.ToInt32(wholeLine1[0]));
-                    wholeLine1 = wholeLine1.Skip(1).ToArray();
-                    List<Knoop> knopen = new List<Knoop>();
-
-                    List<String> knooptekst = new List<string>();
-
-                    while (wholeLine1.Count() != 0)
-                    {
-                        if (wholeLine1[0] == " ")
-                        {
-                            foreach (Knoop knp in knopen) { dummyGraaf.map.Add(knp, knp.segmenten); }
-                            graafLijst.Add(dummyGraaf);
-                            wholeLine1 = wholeLine1.Skip(1).ToArray();
-                        }
-
-                        for (int i = 0; i < wholeLine1.Count(); i++)
-                        {   //is de volgende info een knoop?
-                            if (wholeLine1[0].StartsWith(" KnoopId"))
-                            {
-                                knooptekst = wholeLine1.Take(3).ToList();
-                                knooptekst[0] = knooptekst[0].Replace(" KnoopId,puntx,punty: ", "");
-                                knopen.Add(new Knoop(Convert.ToInt32(knooptekst[0]), new Punt(Convert.ToDouble(knooptekst[1]), Convert.ToDouble(knooptekst[2]))));
-                                wholeLine1 = wholeLine1.Skip(3).ToArray();
-                            }
-                            //is de volgende info een segment?
-                            if (wholeLine1[0].StartsWith("( segmentID") ||
-                                wholeLine1[0].StartsWith(" segmentID,be")
-                                                                )
-                            {
-                                List<String> segmentTekst = wholeLine1.Take(3).ToList();
-                                segmentTekst[0] = segmentTekst[0].Replace("( segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
-                                segmentTekst[0] = segmentTekst[0].Replace(" segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
-
-                                Segment dummySeg = new Segment(Convert.ToInt32(segmentTekst[0]), Convert.ToInt32(segmentTekst[1]), Convert.ToInt32(segmentTekst[2]));
-
-                                wholeLine1 = wholeLine1.Skip(3).ToArray();
-
-                                string[] punten = wholeLine1[0].Replace(";[(", "").Split(']');
-                                List<Punt> puntenLijst = new List<Punt>();
-
-                                //int empt = 0;
-
-                                punten[0] = punten[0].Replace("[(", "").Replace("(", "".Replace(")", ""));
-                                List<String> puntenApart = punten[0].Split(')').ToList();
-
-                                puntenApart.ForEach(lijn =>
-                                {
-                                    if (lijn != "")
-                                    {
-                                        String[] lx = lijn.Split(",");
-                                        dummySeg.punten_verticles.Add(new Punt(Convert.ToDouble(lx[0]), Convert.ToDouble(lx[1])));
-                                    }
-                                }); knopen.Where(k => k.knoopID == Convert.ToInt32(knooptekst[0])).First().segmenten.Add(dummySeg);
-
-                                wholeLine1 = wholeLine1.Skip(1).ToArray();
-
-                                if (punten.Length > 0)
-                                {
-                                    if (punten[1] != ")")
-                                    {
-                                        punten[1] = punten[1].Replace(") segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
-
-                                        //empt = Convert.ToInt32(punten[1]);
-                                    };
-                                }
-                                //if (empt != 0)
-                                //{
-                                //    knopen.Where(k => k.knoopID == Convert.ToInt32(knooptekst[0])).First().segmenten.Add(new Segment(empt, Convert.ToInt32(wholeLine1[0]), Convert.ToInt32(wholeLine1[1])));
-                                //    wholeLine1 = wholeLine1.Skip(2).ToArray();
-
-                                //    Boolean segm = false;
-                                //    Boolean knoop = false;
-                                //    punten = wholeLine1[0].Replace(";[(", "").Split(']');
-
-                                //    puntenLijst = new List<Punt>();
-
-                                //    empt = 0;
-                                //    punten[0] = punten[0].Replace("[(", "").Replace("(", "");
-                                //    puntenApart = punten[0].Split(')').ToList();
-
-                                //    puntenApart.ForEach(lijn =>
-                                //    {
-                                //        if (lijn != "")
-                                //        {
-                                //            String[] lx = lijn.Split(",");
-                                //            dummySeg.punten_verticles.Add(new Punt(Convert.ToDouble(lx[0]), Convert.ToDouble(lx[1])));
-                                //            knopen.Where(k => k.knoopID == Convert.ToInt32(knooptekst[0])).First().segmenten.Add(dummySeg);
-                                //        }
-                                //    });
-
-                                //    wholeLine1 = wholeLine1.Skip(1).ToArray();
-
-                                //    if (punten.Length > 0)
-                                //    {
-                                //        if (punten[1].StartsWith(") segmentID,begi"))
-                                //        {
-                                //            punten[1] = punten[1].Replace(") segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
-                                //            empt = Convert.ToInt32(punten[1]);
-                                //            segm = true;
-                                //        }
-                                //        else if (punten[1].StartsWith(") KnoopId,puntx,punty:"))
-                                //        {
-                                //            punten[1] = punten[1].Replace(") KnoopId,puntx,punty: ", "");
-                                //            empt = Convert.ToInt32(punten[1]);
-                                //            knooptekst[0] = Convert.ToString(empt);
-                                //            knoop = true;
-                                //        }
-                                //    }
-                                //    if (empt != 0)
-                                //    {
-                                //        if (segm)
-                                //        {
-                                //            knopen.Where(k => k.knoopID == Convert.ToInt32(knooptekst[0])).First().segmenten.Add(new Segment(empt, Convert.ToInt32(wholeLine1[0]), Convert.ToInt32(wholeLine1[1])));
-                                //            wholeLine1 = wholeLine1.Skip(2).ToArray();
-                                //            segm = false;
-                                //        }
-                                //        if (knoop)
-                                //        {
-                                //            knopen.Add(new Knoop(Convert.ToInt32(knooptekst[0]), new Punt(Convert.ToDouble(wholeLine1[0]), Convert.ToDouble(wholeLine1[1]))));
-                                //            wholeLine1 = wholeLine1.Skip(2).ToArray();
-                                //            knoop = false;
-                                //        }
-                                //    }
-                                //}
-                            }
-                        }
-                    }
-                }
-
-                return graafLijst;
-            }
-        }
+        
     }
 }

@@ -48,5 +48,7 @@ namespace Tool2.Klas
                    eindknoop == segment.eindknoop &&
                    EqualityComparer<List<Punt>>.Default.Equals(punten_verticles, segment.punten_verticles);
         }
+
+
     }
 }

@@ -13,5 +13,17 @@ namespace Tool2.Klas
             this.GraafId = graafId;
             map = new Dictionary<Knoop, List<Segment>>();
         }
+
+        public List<Knoop> getKnopen()
+        {
+            List<Knoop> knopen = null;
+
+            foreach (KeyValuePair<Knoop, List<Segment>> entry in map)
+            {
+                knopen.Add(entry.Key);
+            }
+
+            return knopen;
+        }
     }
 }

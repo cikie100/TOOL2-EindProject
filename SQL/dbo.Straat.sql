@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Straat] (
-    [straatId]   INT         NOT NULL IDENTITY,
+    [straatId]   INT         IDENTITY (1, 1) NOT NULL,
     [straatNaam] NCHAR (100) NULL,
     [lengte]     INT         NULL,
     [graafID]    INT         NULL,

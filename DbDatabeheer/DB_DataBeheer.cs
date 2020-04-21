@@ -217,8 +217,6 @@ namespace Tool2.DbDatabeheer
             }
         }
 
-        #endregion lukt
-
         public void KoppelGemeentesAanProvincie(List<Provincie> provlist)
         {
             DbConnection connection = getConnection();
@@ -306,5 +304,59 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
+
+        #endregion lukt
+
+        public void VoegKnopenToe(List<Knoop> getalleknopen) 
+        {
+            DbConnection connection = getConnection();
+            string query1 = "SET IDENTITY_INSERT Knoop ON;" +
+                " INSERT INTO dbo.Knoop(knoopId,puntX,puntY) VALUES(@knoopId,@puntX,@puntY);" +
+                "   SET IDENTITY_INSERT Knoop  OFF";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@knoopId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+                    DbParameter parTID = sqlFactory.CreateParameter();
+                    parTID.ParameterName = "@puntX";
+                    parTID.DbType = DbType.Double;
+                    command.Parameters.Add(parTID);
+
+                    DbParameter parWID = sqlFactory.CreateParameter();
+                    parWID.ParameterName = "@puntY";
+                    parWID.DbType = DbType.Double;
+                    command.Parameters.Add(parWID);
+
+                    command.CommandText = query1;
+
+
+                
+                  
+                    foreach (Knoop Key in getalleknopen)
+                    {
+                        command.Parameters["@knoopId"].Value = Key.knoopID;
+                        command.Parameters["@puntX"].Value = Key.punt.x;
+                        command.Parameters["@puntY"].Value = Key.punt.y;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 using Tool2.Databeheer;
 using Tool2.DbDatabeheer;
 using Tool2.Klas;
@@ -18,14 +19,14 @@ namespace Tool2
 
             #region tekst binnenLezen
 
-            Databeheerder d = new Databeheerder();
+            Tool1DataVerwerker t1dv = new Tool1DataVerwerker();
 
             //haalt alles op van de tekstbestanden die ik maakte in TOOL1
-            List<Gemeente> GemeenteLijst = d.getGemeentes(); //duurt <0 seconden
-            List<Provincie> ProvincieLijst = d.getProvincies(); //duurt < 0 seconden
-            List<Straat> StratenLijst = d.getStraten(); // 84064 straten maken duurt < 0 seconden
-            List<Graaf> GravenLijst = d.getGraafenLijst(); // duurt 30 seconden voor 84064 graven aan (=evenveel straten) te maken.
-
+            List<Gemeente> GemeenteLijst = t1dv.getGemeentes(); //duurt <0 seconden
+            List<Provincie> ProvincieLijst = t1dv.getProvincies(); //duurt < 0 seconden
+            List<Straat> StratenLijst = t1dv.getStraten(); // 84064 straten maken duurt < 0 seconden
+            List<Graaf> GravenLijst = t1dv.getGraafenLijst(); // duurt 30 seconden voor 84064 graven aan (=evenveel straten) te maken.
+            List<Knoop> getalleknopen = t1dv.getalleknopen.GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); 
             #endregion tekst binnenLezen
 
             #region databank
@@ -50,9 +51,6 @@ namespace Tool2
             //--dbo.Gemeente opvullen is gelukt (GemeenteId,GemeenteNaam)
             // db.VoegGemeentesToe(GemeenteLijst);
 
-            //--dbo.Gemeente_straat opvullen is gelukt (GemeenteId, straatId)
-            //heb je nodig als link tussen gemeentes en hun straten
-            // db.KoppelStratenAanGemeentes(GemeenteLijst, StratenLijst);
 
             //--door de foreign key moet je eerst graafDB maken en dan pas straatDB
             //--dbo.Graaf vullen met alle graafId's (GraafId)
@@ -60,6 +58,13 @@ namespace Tool2
 
             //--dbo.Straat vullen is gelukt (StraatID,Straatnaam,Length,GraafId)
             // db.VoegStratenToe(StratenLijst);
+
+            //--dbo.Gemeente_straat opvullen is gelukt (GemeenteId, straatId)
+            //heb je nodig als link tussen gemeentes en hun straten
+            //  db.KoppelStratenAanGemeentes(GemeenteLijst, StratenLijst);
+
+            //--dbo.Knoop opvullen is gelukt (knoopId, puntX, puntY)
+            // db.VoegKnopenToe( getalleknopen);
 
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;

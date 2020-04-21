@@ -25,6 +25,7 @@ namespace Tool2.Klas
             return ("Knoop met id " + knoopID + " , verwijst naar punt x,y: ( " + punt.x + " , " + punt.y + " )");
         }
 
+
         #region equals & getHashCode
 
         public override bool Equals(object obj)
