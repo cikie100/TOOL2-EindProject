@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Tool2.Klas
 {
@@ -28,5 +29,22 @@ namespace Tool2.Klas
 
             return knopen;
         }
+
+        public List<Segment> getSegmenten()
+        {
+            List<Segment> segments = new List<Segment>();
+
+            foreach (KeyValuePair<Knoop, List<Segment>> entry in this.map)
+            {
+                foreach (Segment se in entry.Value)
+                {
+                    segments.Add(se);
+                }
+               
+            }
+            segments = segments.GroupBy(s => s.segmentID).Select(grp => grp.First()).ToList();
+            return segments;
+        }
+
     }
 }

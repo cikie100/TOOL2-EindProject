@@ -71,11 +71,17 @@ namespace Tool2
             //--dbo.Graaf_Knoop opvullen is gelukt (GraafId, KnoopId)
             // db.KoppelKnopenAanGraaf(GravenLijst);
 
+            //--dbo.Segment opvullen is gelukt (SegmentId, BeginKnoopId, EindKnoopId)
+            // db.VoegSegmentenToe(GravenLijst);
+
+            //--dbo.Knoop_Segment opvullen is gelukt (SegmentId, KnoopId)
+           // db.KoppelSegmentenAanKnopen(GravenLijst); //209seconden voor 966799 rows aan te maken
+
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;
             Console.WriteLine("\nRunTime " + duration + " Elapsed seconds");
 
-            Console.ReadLine();
+             Console.ReadLine();
         }
     }
 }
