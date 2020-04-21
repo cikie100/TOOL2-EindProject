@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using Tool2.Klas;
 
 namespace Tool2.DbDatabeheer
@@ -305,8 +306,6 @@ namespace Tool2.DbDatabeheer
             }
         }
 
-        #endregion lukt
-
         public void VoegKnopenToe(List<Knoop> getalleknopen) 
         {
             DbConnection connection = getConnection();
@@ -357,6 +356,52 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
+        #endregion lukt
 
+        public void KoppelKnopenAanGraaf(List<Graaf> GravenLijst)
+        {
+            DbConnection connection = getConnection();
+            string queryS = "INSERT INTO dbo.Graaf_Knoop(GraafId,knoopId) VALUES(@GraafId,@knoopId)";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@GraafId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+                    DbParameter parSID = sqlFactory.CreateParameter();
+                    parSID.ParameterName = "@knoopId";
+                    parSID.DbType = DbType.Int32;
+                    command.Parameters.Add(parSID);
+
+                    command.CommandText = queryS;
+                    GravenLijst = GravenLijst.OrderBy(g => g.GraafId).ToList();
+
+                    foreach (Graaf graaf in GravenLijst)
+                    {
+                        List<Knoop> knopen = graaf.getKnopen().GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); ;
+                        
+                        foreach (Knoop knoop in knopen)
+                        {
+                            command.Parameters["@GraafId"].Value = graaf.GraafId;
+                            command.Parameters["@knoopId"].Value = knoop.knoopID;
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }

@@ -8,6 +8,9 @@ namespace Tool2.Klas
 
         public Dictionary<Knoop, List<Segment>> map { get; set; }
 
+
+
+
         public Graaf(int graafId)
         {
             this.GraafId = graafId;
@@ -16,9 +19,9 @@ namespace Tool2.Klas
 
         public List<Knoop> getKnopen()
         {
-            List<Knoop> knopen = null;
+            List<Knoop> knopen = new List<Knoop>();
 
-            foreach (KeyValuePair<Knoop, List<Segment>> entry in map)
+            foreach (KeyValuePair<Knoop, List<Segment>> entry in this.map)
             {
                 knopen.Add(entry.Key);
             }

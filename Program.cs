@@ -26,7 +26,9 @@ namespace Tool2
             List<Provincie> ProvincieLijst = t1dv.getProvincies(); //duurt < 0 seconden
             List<Straat> StratenLijst = t1dv.getStraten(); // 84064 straten maken duurt < 0 seconden
             List<Graaf> GravenLijst = t1dv.getGraafenLijst(); // duurt 30 seconden voor 84064 graven aan (=evenveel straten) te maken.
-            List<Knoop> getalleknopen = t1dv.getalleknopen.GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); 
+           
+            //nodig gehad om dbo.Knoop aan te maken
+           // List<Knoop> getalleknopen = t1dv.getalleknopen.GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); 
             #endregion tekst binnenLezen
 
             #region databank
@@ -65,6 +67,9 @@ namespace Tool2
 
             //--dbo.Knoop opvullen is gelukt (knoopId, puntX, puntY)
             // db.VoegKnopenToe( getalleknopen);
+
+            //--dbo.Graaf_Knoop opvullen is gelukt (GraafId, KnoopId)
+            // db.KoppelKnopenAanGraaf(GravenLijst);
 
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;

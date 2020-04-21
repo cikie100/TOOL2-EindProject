@@ -180,7 +180,8 @@ namespace Tool2.Databeheer
                         if (wholeLine1[0] == " ")
                         {
                             foreach (Knoop knp in knopen) { dummyGraaf.map.Add(knp, knp.segmenten);
-                                                                 getalleknopen.Add(knp);
+                                //nodig gehad om dbo.Knoop aan te maken
+                                //getalleknopen.Add(knp);
                             }
                             graafLijst.Add(dummyGraaf);
                             wholeLine1 = wholeLine1.Skip(1).ToArray();
