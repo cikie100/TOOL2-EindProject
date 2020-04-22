@@ -10,7 +10,7 @@ namespace Tool2.Databeheer
     //Hierin lees ik al de zelfgemaakte data bestanden in en geef ik hun terug als List<Objects>
     {
         public List<Knoop> getalleknopen;
-
+        public List<Segment> getallesegmenten;
         #region WORKS
 
         // ProvincieBestand.txt (provincieID;Provnaam;taalcode;(gemeenteId))
@@ -134,6 +134,8 @@ namespace Tool2.Databeheer
         {
             //deze code is niet bepaald mooi, maar het werkt, en ik ben er wel beetje trots op :)
             getalleknopen = new List<Knoop>();
+            getallesegmenten = new List<Segment>();
+
             List<Graaf> graafLijst = new List<Graaf>();
             List<string> GraafInfoLIJN;
 
@@ -182,6 +184,11 @@ namespace Tool2.Databeheer
                             foreach (Knoop knp in knopen) { dummyGraaf.map.Add(knp, knp.segmenten);
                                 //nodig gehad om dbo.Knoop aan te maken
                                 //getalleknopen.Add(knp);
+                                foreach (Segment seg in knp.segmenten)
+                                {
+                                    getallesegmenten.Add(seg);
+                                }
+                                
                             }
                             graafLijst.Add(dummyGraaf);
                             wholeLine1 = wholeLine1.Skip(1).ToArray();

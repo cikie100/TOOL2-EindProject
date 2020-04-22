@@ -26,9 +26,12 @@ namespace Tool2
             List<Provincie> ProvincieLijst = t1dv.getProvincies(); //duurt < 0 seconden
             List<Straat> StratenLijst = t1dv.getStraten(); // 84064 straten maken duurt < 0 seconden
             List<Graaf> GravenLijst = t1dv.getGraafenLijst(); // duurt 30 seconden voor 84064 graven aan (=evenveel straten) te maken.
-           
+
             //nodig gehad om dbo.Knoop aan te maken
-           // List<Knoop> getalleknopen = t1dv.getalleknopen.GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); 
+            // List<Knoop> getalleknopen = t1dv.getalleknopen.GroupBy(kn => kn.knoopID).Select(grp => grp.First()).ToList(); 
+            
+            //nodig gehad om dbo.Punt aan te maken
+            // List<Segment> segments = t1dv.getallesegmenten;
             #endregion tekst binnenLezen
 
             #region databank
@@ -42,6 +45,8 @@ namespace Tool2
             DB_DataBeheer db = new DB_DataBeheer(sqlFactory, connectionString);
 
             #endregion databank
+
+            //Hieronder staan al de gebruikte methodes die nodig waren om mijn DB op te vullen.
 
             //--dbo.Provincie opvullen is gelukt (ProvincieID, provincienaam, taalcode)
             // db.VoegProvinciesToe(ProvincieLijst);
@@ -75,7 +80,10 @@ namespace Tool2
             // db.VoegSegmentenToe(GravenLijst);
 
             //--dbo.Knoop_Segment opvullen is gelukt (SegmentId, KnoopId)
-           // db.KoppelSegmentenAanKnopen(GravenLijst); //209seconden voor 966799 rows aan te maken
+            // db.KoppelSegmentenAanKnopen(GravenLijst); //209seconden voor 966799 rows aan te maken
+            
+            //--dbo.Punt opvullen is gelukt (SegmentId, PuntX, PuntY)
+            // db.VoegPuntenToe(segments); // 1603 seconden (= 26.7 minutes) voor 4 687 120 punten te maken
 
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;

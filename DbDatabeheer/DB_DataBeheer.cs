@@ -127,7 +127,7 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
-
+        
         public void VoegGraafObjectenToe(List<Straat> straatlist) //duurt 23 seconden , er zijn er 84063
         {
             DbConnection connection = getConnection();
@@ -464,15 +464,13 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
-        #endregion lukt
-
 
         internal void KoppelSegmentenAanKnopen(List<Graaf> gravenLijst)
         {
             DbConnection connection = getConnection();
-            string query1 = 
+            string query1 =
                 " INSERT INTO dbo.Knoop_Segment(knoopId,SegmentId ) " +
-                "VALUES(@knoopId,@SegmentId); " ;
+                "VALUES(@knoopId,@SegmentId); ";
 
             using (DbCommand command = connection.CreateCommand())
             {
@@ -499,7 +497,7 @@ namespace Tool2.DbDatabeheer
                         {
                             foreach (Segment segm in KVP.Value)
                             {
-                                
+
                                 command.Parameters["@SegmentId"].Value = segm.segmentID;
                                 command.Parameters["@knoopId"].Value = KVP.Key.knoopID;
                                 command.ExecuteNonQuery();
@@ -518,6 +516,68 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
+        
+        internal void VoegPuntenToe(List<Segment> segments)
+        {
+            DbConnection connection = getConnection();
+            string query1 = "SET IDENTITY_INSERT Segment ON;" +
+                " INSERT INTO dbo.Punt(SegmId,puntX,puntY) " +
+                "VALUES(@SegmId,@puntX,@puntY);" +
+                "   SET IDENTITY_INSERT Segment  OFF";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@SegmId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+
+                    DbParameter parWID = sqlFactory.CreateParameter();
+                    parWID.ParameterName = "@puntX";
+                    parWID.DbType = DbType.Double;
+                    command.Parameters.Add(parWID);
+
+                    DbParameter parTWID = sqlFactory.CreateParameter();
+                    parTWID.ParameterName = "@puntY";
+                    parTWID.DbType = DbType.Double;
+                    command.Parameters.Add(parTWID);
+
+                    command.CommandText = query1;
+                    List<Segment> segmentsUn = segments.GroupBy(s => s.segmentID).Select(grp => grp.First()).ToList();
+
+                    foreach (Segment seg in segmentsUn)
+                    {
+
+                        foreach (Punt punt in seg.punten_verticles)
+                        {
+                            command.Parameters["@SegmId"].Value = seg.segmentID;
+                            command.Parameters["@puntX"].Value = punt.x;
+                            command.Parameters["@puntY"].Value = punt.y;
+                            command.ExecuteNonQuery();
+                        }
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        #endregion lukt
+
+
 
     }
 }

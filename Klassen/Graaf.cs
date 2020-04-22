@@ -11,7 +11,7 @@ namespace Tool2.Klas
 
 
 
-
+        //
         public Graaf(int graafId)
         {
             this.GraafId = graafId;
