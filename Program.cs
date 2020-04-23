@@ -81,9 +81,14 @@ namespace Tool2
 
             //--dbo.Knoop_Segment opvullen is gelukt (SegmentId, KnoopId)
             // db.KoppelSegmentenAanKnopen(GravenLijst); //209seconden voor 966799 rows aan te maken
-            
+
             //--dbo.Punt opvullen is gelukt (SegmentId, PuntX, PuntY)
             // db.VoegPuntenToe(segments); // 1603 seconden (= 26.7 minutes) voor 4 687 120 punten te maken
+
+            //--dbo.Segment toevoeging van linkerstaatnaamId en rechterstraatnaamId
+            //--nodig voor een extra query? 
+            // db.updateSegmenten(GravenLijst); //suurt 163 seconden
+
 
             stopWatch.Stop();
             long duration = stopWatch.ElapsedMilliseconds / 1000;

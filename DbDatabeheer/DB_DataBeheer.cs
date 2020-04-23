@@ -432,6 +432,7 @@ namespace Tool2.DbDatabeheer
                     parTWID.DbType = DbType.Int32;
                     command.Parameters.Add(parTWID);
 
+
                     command.CommandText = query1;
 
                     foreach (Graaf grf in GravenLijst)
@@ -465,59 +466,7 @@ namespace Tool2.DbDatabeheer
             }
         }
 
-        internal void KoppelSegmentenAanKnopen(List<Graaf> gravenLijst)
-        {
-            DbConnection connection = getConnection();
-            string query1 =
-                " INSERT INTO dbo.Knoop_Segment(knoopId,SegmentId ) " +
-                "VALUES(@knoopId,@SegmentId); ";
-
-            using (DbCommand command = connection.CreateCommand())
-            {
-                connection.Open();
-                try
-                {
-                    DbParameter parCID = sqlFactory.CreateParameter();
-                    parCID.ParameterName = "@knoopId";
-                    parCID.DbType = DbType.Int32;
-                    command.Parameters.Add(parCID);
-
-                    DbParameter parWID = sqlFactory.CreateParameter();
-                    parWID.ParameterName = "@SegmentId";
-                    parWID.DbType = DbType.Int32;
-                    command.Parameters.Add(parWID);
-
-
-                    command.CommandText = query1;
-
-                    foreach (Graaf grf in gravenLijst)
-                    {
-                        //  Dictionary<Knoop, List<Segment>> values = grf.map;
-                        foreach (KeyValuePair<Knoop, List<Segment>> KVP in grf.map)
-                        {
-                            foreach (Segment segm in KVP.Value)
-                            {
-
-                                command.Parameters["@SegmentId"].Value = segm.segmentID;
-                                command.Parameters["@knoopId"].Value = KVP.Key.knoopID;
-                                command.ExecuteNonQuery();
-                            }
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-        }
-        
-        internal void VoegPuntenToe(List<Segment> segments)
+        public void VoegPuntenToe(List<Segment> segments)
         {
             DbConnection connection = getConnection();
             string query1 = "SET IDENTITY_INSERT Segment ON;" +
@@ -575,8 +524,122 @@ namespace Tool2.DbDatabeheer
                 }
             }
         }
-        #endregion lukt
 
+        public void KoppelSegmentenAanKnopen(List<Graaf> gravenLijst)
+        {
+            DbConnection connection = getConnection();
+            string query1 =
+                " INSERT INTO dbo.Knoop_Segment(knoopId,SegmentId ) " +
+                "VALUES(@knoopId,@SegmentId); ";
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@knoopId";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+                    DbParameter parWID = sqlFactory.CreateParameter();
+                    parWID.ParameterName = "@SegmentId";
+                    parWID.DbType = DbType.Int32;
+                    command.Parameters.Add(parWID);
+
+
+                    command.CommandText = query1;
+
+                    foreach (Graaf grf in gravenLijst)
+                    {
+                        //  Dictionary<Knoop, List<Segment>> values = grf.map;
+                        foreach (KeyValuePair<Knoop, List<Segment>> KVP in grf.map)
+                        {
+                            foreach (Segment segm in KVP.Value)
+                            {
+
+                                command.Parameters["@SegmentId"].Value = segm.segmentID;
+                                command.Parameters["@knoopId"].Value = KVP.Key.knoopID;
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        #endregion lukt
+        public void updateSegmenten(List<Graaf> gravenLijst)
+        {
+            DbConnection connection = getConnection();
+            string query1 =
+                " UPDATE dbo.Segment" +
+                " SET linksStraatnaamID= @linksStraatnaamID, rechtsStraatnaamID= @rechtsStraatnaamID " +
+                "WHERE SegmentId= @SegmentId";
+              
+
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.Open();
+                try
+                {
+                    DbParameter parCID = sqlFactory.CreateParameter();
+                    parCID.ParameterName = "@linksStraatnaamID";
+                    parCID.DbType = DbType.Int32;
+                    command.Parameters.Add(parCID);
+
+
+                    DbParameter parWID = sqlFactory.CreateParameter();
+                    parWID.ParameterName = "@rechtsStraatnaamID";
+                    parWID.DbType = DbType.Int32;
+                    command.Parameters.Add(parWID);
+
+                    DbParameter parTWID = sqlFactory.CreateParameter();
+                    parTWID.ParameterName = "@SegmentId";
+                    parTWID.DbType = DbType.Int32;
+                    command.Parameters.Add(parTWID);
+
+
+                    command.CommandText = query1;
+
+                    foreach (Graaf grf in gravenLijst)
+                    {
+                        //  Dictionary<Knoop, List<Segment>> values = grf.map;
+
+                        List<Segment> listy = grf.getSegmenten();
+
+
+                        foreach (Segment segm in listy)
+                        {
+                            command.Parameters["@linksStraatnaamID"].Value = segm.linksStraatnaamID;
+                            command.Parameters["@rechtsStraatnaamID"].Value = segm.rechtsStraatnaamID;
+                            command.Parameters["@SegmentId"].Value = segm.segmentID;
+                            command.ExecuteNonQuery();
+                        }
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
 
 
     }

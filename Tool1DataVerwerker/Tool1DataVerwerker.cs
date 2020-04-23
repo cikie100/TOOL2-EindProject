@@ -139,7 +139,7 @@ namespace Tool2.Databeheer
             List<Graaf> graafLijst = new List<Graaf>();
             List<string> GraafInfoLIJN;
 
-            using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\GraafBestand.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs = File.Open(@"..\..\..\..\dataVanTool1\GraafTest2.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (BufferedStream bs = new BufferedStream(fs))
             using (StreamReader sreader = new StreamReader(bs))
             {
@@ -209,15 +209,15 @@ namespace Tool2.Databeheer
                                                                 )
                             {
                                 // neemt de segmentID,beginknoop.knoopID,eindknoop.knoopID van een knoop
-                                List<String> segmentTekst = wholeLine1.Take(3).ToList();
-                                segmentTekst[0] = segmentTekst[0].Replace("( segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
-                                segmentTekst[0] = segmentTekst[0].Replace(" segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
+                                List<String> segmentTekst = wholeLine1.Take(5).ToList();
+                                segmentTekst[0] = segmentTekst[0].Replace("( segmentID,beginknoop.knoopID,eindknoop.knoopID,linksStraatnaamID,rechtsStraatnaamID: ", "");
+                                segmentTekst[0] = segmentTekst[0].Replace(" segmentID,beginknoop.knoopID,eindknoop.knoopID,linksStraatnaamID,rechtsStraatnaamID: ", "");
 
                                 // maakt een segment van die (segmentID,beginknoop.knoopID,eindknoop.knoopID van een knoop)
-                                Segment dummySeg = new Segment(Convert.ToInt32(segmentTekst[0]), Convert.ToInt32(segmentTekst[1]), Convert.ToInt32(segmentTekst[2]));
+                                Segment dummySeg = new Segment(Convert.ToInt32(segmentTekst[0]), Convert.ToInt32(segmentTekst[1]), Convert.ToInt32(segmentTekst[2]), Convert.ToInt32(segmentTekst[3]), Convert.ToInt32(segmentTekst[4]));
 
                                 // verwijder de 3 gebruikte lijnen
-                                wholeLine1 = wholeLine1.Skip(3).ToArray();
+                                wholeLine1 = wholeLine1.Skip(5).ToArray();
 
                                 //nu de punten van de segment hierboven ophalen
                                 string[] punten = wholeLine1[0].Replace(";[(", "").Split(']');
@@ -244,7 +244,7 @@ namespace Tool2.Databeheer
                                 {
                                     if (punten[1] != ")")
                                     {
-                                        punten[1] = punten[1].Replace(") segmentID,beginknoop.knoopID,eindknoop.knoopID: ", "");
+                                        punten[1] = punten[1].Replace(") segmentID,beginknoop.knoopID,eindknoop.knoopID,linksStraatnaamID,rechtsStraatnaamID: ", "");
                                     };
                                 }
                             }

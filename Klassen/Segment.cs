@@ -11,15 +11,19 @@ namespace Tool2.Klas
         public int segmentID { get; set; }
         public int beginknoop { get; set; }
         public int eindknoop { get; set; }
+        public int linksStraatnaamID { get; set; }
+        public int rechtsStraatnaamID { get; set; }
         public List<Punt> punten_verticles { get; set; }
 
         #endregion Properties
 
-        public Segment(int segmentID, int beginknoopID, int eindknoopID)
+        public Segment(int segmentID, int beginknoopID, int eindknoopID, int linksStraatnaamID, int rechtsStraatnaamID)
         {
             this.segmentID = segmentID;
             this.beginknoop = beginknoopID;
             this.eindknoop = eindknoopID;
+            this.linksStraatnaamID = linksStraatnaamID;
+            this.rechtsStraatnaamID =  rechtsStraatnaamID;
             this.punten_verticles = new List<Punt>();
         }
 
